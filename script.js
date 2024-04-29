@@ -3,7 +3,7 @@ let cmds = {};
 let token = '';
 
 function register(name, run, usage = '', desc = '') {
-  if(typeof name !== 'string' || typeof run === 'function') {
+  if(typeof name !== 'string' || typeof run !== 'function') {
     return false;
   }
 
