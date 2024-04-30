@@ -1,6 +1,9 @@
 const base_url = 'https://canvas.instructure.com/api/v1/';
 let cmds = {};
 let token = '';
+let state = {
+  course: ''
+};
 
 function register(name, run, usage = '', desc = '') {
   if(typeof name !== 'string' || typeof run !== 'function') {
@@ -119,3 +122,18 @@ register('clear', function(args) {
   e_output.value = '';
 }, '', 'clears the output');
 alias('cls', 'clear');
+
+register('login', function(args) {
+  token = args[0];
+}, '<token>', 'login with access token');
+
+register('list', function(args) {
+  if(args[0] === 'courses') {
+    let req = new XMLHttpRequest();
+    req.open('GET', base_url+'courses', false);
+    req.send(null);
+    print(req.responseText);
+  } else if(args[0] === 'assignments') {
+    print('not done yet');
+  }
+}, 'courses | assignments', 'list courses/assignments, some options depend on previously selected items');
