@@ -22,7 +22,7 @@ function register(name, run, usage = '', desc = '') {
 }
 
 function alias(name, run) {
-  if(typeof name !== 'string' || typeof run === 'string') {
+  if(typeof name !== 'string' || typeof run !== 'string') {
     return false;
   }
 
