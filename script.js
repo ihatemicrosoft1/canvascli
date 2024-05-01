@@ -5,6 +5,20 @@ let state = {
   course: ''
 };
 
+function getReq(path) {
+  return new Promise((resolve) => {
+    let req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+      if(req.readyState === 4) {
+        resolve(req.responseText);
+      }
+    }
+    req.open('GET', base_url + path, true);
+    req.setRequestHeader('Authorization', 'Bearer ' + token);
+    req.send(null);
+  });
+}
+
 function register(name, run, usage = '', desc = '') {
   if(typeof name !== 'string' || typeof run !== 'function') {
     return false;
@@ -127,12 +141,10 @@ register('login', function(args) {
   token = args[0];
 }, '<token>', 'login with access token');
 
-register('list', function(args) {
+register('list', async function(args) {
   if(args[0] === 'courses') {
-    let req = new XMLHttpRequest();
-    req.open('GET', base_url+'courses', false);
-    req.send(null);
-    print(req.responseText);
+    let response = await getReq('courses');
+    print(response);
   } else if(args[0] === 'assignments') {
     print('not done yet');
   }
